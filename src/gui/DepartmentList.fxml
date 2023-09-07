@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox prefHeight="406.0" prefWidth="364.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/20.0.1">
+<VBox prefHeight="406.0" prefWidth="364.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DepartmentListController">
    <children>
       <Label text="Department Registration">
          <font>
@@ -22,7 +21,7 @@
       </Label>
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
-          <Button alignment="CENTER" mnemonicParsing="false" prefHeight="26.0" prefWidth="47.0" text="new">
+          <Button fx:id="newBt" alignment="CENTER" mnemonicParsing="false" onAction="#onNewBtAction" prefHeight="26.0" prefWidth="47.0" text="new">
                <padding>
                   <Insets left="5.0" right="5.0" top="5.0" />
                </padding>
@@ -32,10 +31,10 @@
             </Button>
         </items>
       </ToolBar>
-      <TableView prefHeight="200.0" prefWidth="200.0">
+      <TableView fx:id="tableDepart" prefHeight="200.0" prefWidth="200.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="ID" />
-          <TableColumn prefWidth="75.0" text="NAME" />
+          <TableColumn fx:id="tableColumn" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="tableName" prefWidth="75.0" text="NAME" />
         </columns>
       </TableView>
    </children>

@@ -35,12 +35,15 @@ public class MainViewController implements Initializable{
 
 	@FXML
 	public void onDepartmentMenuItemAction() {
-		loadView2("/gui/DepartmentList.fxml");
+		loadView("/gui/DepartmentList.fxml", (DepartmentListController controller) -> {
+			controller.setDepartService(new DepartmentService());
+			controller.updateTableview();
+		});
 	}
 		
 	@FXML
 	public void onAboutMenuItemAction() {
-		loadView("/gui/About.fxml");
+		loadView("/gui/About.fxml", x -> {});
 	}
 	
 	@Override
@@ -48,7 +51,7 @@ public class MainViewController implements Initializable{
 		
 	}
 
-	public synchronized void  loadView(String absolutName) {
+	public synchronized <T> void  loadView(String absolutName, java.util.function.Consumer<T> initialingAction) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absolutName));	
 			VBox vbox =  loader.load();		
@@ -59,31 +62,15 @@ public class MainViewController implements Initializable{
 			mainVbox.getChildren().clear();
 			mainVbox.getChildren().add(mainMenu);
 			mainVbox.getChildren().addAll(vbox.getChildren());
+			
+			T controller = loader.getController();
+			initialingAction.accept(controller);
 			
 		} catch (IOException e) {
 			Alerts.showAlert("Error", null, e.getMessage(), AlertType.ERROR);
 		}
 	}
 
-	public synchronized void  loadView2(String absolutName) {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource(absolutName));	
-			VBox vbox =  loader.load();		
-			Scene mainScene = Main.getMainScene();
-			VBox mainVbox = (VBox)((ScrollPane)mainScene.getRoot()).getContent();
-			
-			Node mainMenu = mainVbox.getChildren().get(0);
-			mainVbox.getChildren().clear();
-			mainVbox.getChildren().add(mainMenu);
-			mainVbox.getChildren().addAll(vbox.getChildren());
-			
-			DepartmentListController controller = loader.getController();
-			controller.setDepartService(new DepartmentService());
-			controller.updateTableview();
-		} catch (IOException e) {
-			Alerts.showAlert("Error", null, e.getMessage(), AlertType.ERROR);
-		}
-	}
 
 	
 	
